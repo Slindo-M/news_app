@@ -1,3 +1,7 @@
+'''
+Models for the content app in the news application,
+including Article and Newsletter.
+'''
 from django.db import models
 
 # Create your models here.
