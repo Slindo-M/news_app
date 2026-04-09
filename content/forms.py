@@ -1,3 +1,7 @@
+'''
+Forms for creating and editing articles and newsletters in the news
+application.
+'''
 from django import forms
 from .models import Article, Newsletter
 from publication.models import Publication
