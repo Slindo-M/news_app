@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: news_application
+      MYSQL_USER: news_user
+      MYSQL_PASSWORD: StrongPassword123
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "3308:3306"
+
+  web:
+    build: .
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
