@@ -1,3 +1,6 @@
+'''
+API views for retrieving articles from subscribed journalists and publishers.
+'''
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Article
