@@ -1,10 +1,10 @@
-News Application
+**News Application**
 
-Overview
+**Overview**
 
 This is a Django-based web application that supports user management, content creation and publishing, and subscriptions configured to use a MySQL database. The project includes Sphinx documentation and containerisation using Docker.
 
-Running the Application Locally (venv setup)
+**Running the Application Locally (venv setup)**
 
 1. Clone the Repository
 
@@ -47,7 +47,7 @@ Access the application at:
 http://127.0.0.1:8000
 
 
-Running the Application with Docker
+**Running the Application with Docker**
 
 1. Build and Start Containers
 
@@ -63,7 +63,7 @@ docker-compose exec web python manage.py loaddata /app/backup.json
 http://localhost:8000
 
 
-Environment Variables
+**Environment Variables**
 
 Sensitive information such as database credentials is not stored in the repository. To run the application, create a .env file with the required variables.
 
@@ -85,19 +85,19 @@ db.sqlite3
 *.pyc
 This ensures that sensitive information and unnecessary files are not committed to the repository.
 
-Documentation
+**Documentation**
 
 Sphinx documentation is available in:
 
 docs/build/html/index.html
 
-Notes for Reviewer
+**Notes for Reviewer**
 
 A sample backup file (backup.json) is included to populate the database.
 
 Any required credentials are provided separately for review purposes and should not be committed to the repository.
 
-Summary
+**Summary**
 
 Use a virtual environment for local development.
 
@@ -107,6 +107,6 @@ Store sensitive configuration in a .env file.
 
 Do not commit secrets to version control.
 
-Author
+**Author**
 
 Siphokuhle Majozi
