@@ -1,3 +1,7 @@
+'''
+Serializers for the content app in the news application,
+including ArticleSerializer for converting Article instances to JSON format.
+'''
 from rest_framework import serializers
 from .models import Article
 
