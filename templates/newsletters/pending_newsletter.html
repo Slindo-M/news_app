@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2 class="mb-4">Pending Newsletters</h2>
+
+{% if newsletters %}
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+<th>Title</th>
+<th>Journalist</th>
+<th>Date</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for newsletter in newsletters %}
+
+<tr>
+
+<td>{{ newsletter.title }}</td>
+
+<td>{{ newsletter.journalist.username }}</td>
+
+<td>{{ newsletter.publication_date|date:"M d, Y" }}</td>
+
+<td>
+
+<a href="{% url 'approve_newsletter' newsletter.pk %}" class="btn btn-success btn-sm">
+Approve
+</a>
+
+<a href="{% url 'reject_newsletter' newsletter.pk %}" class="btn btn-danger btn-sm">
+Reject
+</a>
+
+<a href="{% url 'newsletter_detail' newsletter.pk %}" class="btn btn-secondary btn-sm">
+View
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% else %}
+
+<div class="alert alert-success">
+No newsletters pending approval.
+</div>
+
+{% endif %}
+
+<a href="{% url 'editor_dashboard' %}" class="btn btn-secondary mt-3">
+Back
+</a>
+
+</div>
+
+{% endblock %}

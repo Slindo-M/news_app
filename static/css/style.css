@@ -1,0 +1,92 @@
+/* Background */
+
+body{
+    background:#f8fafc;
+}
+
+
+/* Cards */
+
+.card{
+
+    border:none;
+
+    border-radius:12px;
+
+    transition:.2s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    transition:.2s;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+
+}
+
+
+/* Buttons */
+
+.btn{
+
+    border-radius:8px;
+
+    font-weight:500;
+
+}
+
+
+/* Badges */
+
+.badge{
+
+    padding:6px 10px;
+
+    border-radius:8px;
+
+    font-weight:600;
+
+}
+
+
+/* Improve headings */
+
+h2{
+
+    font-weight:700;
+
+    letter-spacing:-0.5px;
+
+}
+
+
+/* Article preview text */
+
+.card p{
+
+    font-size:14px;
+
+    color:#6c757d;
+
+}
+
+
+/* Container polish */
+
+.container{
+
+    max-width:1150px;
+
+}
+
+
+/* Smooth transitions */
+
+*{
+
+    transition:.15s ease;
+
+}

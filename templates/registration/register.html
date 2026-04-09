@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<div class="row justify-content-center">
+
+<div class="col-md-6">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h2 class="text-center mb-4">
+
+Register
+
+</h2>
+
+{% if messages %}
+
+{% for message in messages %}
+
+<div class="alert alert-info">
+
+{{ message }}
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+<form method="POST">
+
+{% csrf_token %}
+
+{{ form.non_field_errors }}
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Username
+
+</label>
+
+{{ form.username }}
+
+<div class="text-danger small">
+{{ form.username.errors }}
+</div>
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Email
+
+</label>
+
+{{ form.email }}
+
+<div class="text-danger small">
+{{ form.email.errors }}
+</div>
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Role
+
+</label>
+
+{{ form.role }}
+
+<div class="text-danger small">
+{{ form.role.errors }}
+</div>
+
+</div>
+
+
+<div class="mb-3" id="publication-field">
+
+<label class="form-label">
+
+Publications
+
+</label>
+
+<div class="form-check">
+
+{{ form.publications }}
+
+</div>
+
+<div class="text-danger small">
+{{ form.publications.errors }}
+</div>
+
+<small class="text-muted">
+
+Editors must select at least one.
+
+Journalists may leave this empty to remain independent.
+
+</small>
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Password
+
+</label>
+
+{{ form.password1 }}
+
+<div class="text-danger small">
+{{ form.password1.errors }}
+</div>
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Confirm Password
+
+</label>
+
+{{ form.password2 }}
+
+<div class="text-danger small">
+{{ form.password2.errors }}
+</div>
+
+</div>
+
+
+<button type="submit" class="btn btn-primary w-100">
+
+Register
+
+</button>
+
+<div class="text-center mt-3">
+
+<small>
+
+Already have an account?
+
+<a href="{% url 'login' %}">
+
+Login
+
+</a>
+
+</small>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const roleField =
+document.getElementById("id_role");
+
+const publicationField =
+document.getElementById("publication-field");
+
+
+function togglePublication(){
+
+if(roleField.value === "reader"){
+
+publicationField.style.display="none";
+
+}else{
+
+publicationField.style.display="block";
+
+}
+
+}
+
+togglePublication();
+
+roleField.addEventListener(
+"change",
+togglePublication
+);
+
+</script>
+
+{% endblock %}

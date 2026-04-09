@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<!-- HERO SECTION -->
+
+<div class="text-center mb-5">
+
+<h1 class="fw-bold">
+
+Welcome to NewsDotCom
+
+</h1>
+
+<p class="text-muted">
+
+A modern publishing platform connecting readers, journalists, and editors.
+
+</p>
+
+{% if not user.is_authenticated %}
+
+<a href="{% url 'register' %}" class="btn btn-primary m-2">
+
+Get Started
+
+</a>
+
+<a href="{% url 'login' %}" class="btn btn-outline-secondary m-2">
+
+Login
+
+</a>
+
+{% endif %}
+
+</div>
+
+
+
+<!-- PLATFORM FEATURES -->
+
+{% if not user.is_authenticated %}
+
+<div class="row text-center mb-5">
+
+<div class="col-md-4">
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<h4>
+
+Readers
+
+</h4>
+
+<p class="text-muted">
+
+Discover quality journalism, follow publications, and stay informed.
+
+</p>
+
+<a href="{% url 'register' %}" class="btn btn-outline-primary">
+
+Join as Reader
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<h4>
+
+Journalists
+
+</h4>
+
+<p class="text-muted">
+
+Publish articles, write newsletters, and build your personal brand.
+
+</p>
+
+<a href="{% url 'register' %}?role=journalist"
+class="btn btn-outline-dark">
+
+Join as Journalist
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<h4>
+
+Editors
+
+</h4>
+
+<p class="text-muted">
+
+Manage publications, approve content, and grow media platforms.
+
+</p>
+
+<a href="{% url 'register' %}?role=editor"
+class="btn btn-outline-success">
+
+Apply as Editor
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endif %}
+
+
+
+<!-- FEATURED PUBLICATIONS -->
+
+<h3 class="mb-3">
+
+Featured Publications
+
+</h3>
+
+<div class="row">
+
+{% for publication in publications %}
+
+<div class="col-md-4">
+
+<div class="card shadow-sm mb-3">
+
+<div class="card-body">
+
+<h5>
+
+{{ publication.name }}
+
+</h5>
+
+<p class="text-muted small">
+
+Publisher:
+{{ publication.publisher.name }}
+
+</p>
+
+<p class="text-muted">
+
+{{ publication.description|truncatewords:15 }}
+
+</p>
+
+<a href="{% url 'publication_detail' publication.pk %}"
+class="btn btn-primary btn-sm">
+
+View Publication
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-light">
+
+No publications yet.
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+
+<!-- CALL TO ACTION -->
+
+{% if not user.is_authenticated %}
+
+<div class="text-center mt-5 mb-5">
+
+<h3>
+
+Start Publishing Today
+
+</h3>
+
+<p class="text-muted">
+
+Join a growing community of media professionals and readers.
+
+</p>
+
+<a href="{% url 'register' %}" class="btn btn-success">
+
+Create Account
+
+</a>
+
+</div>
+
+{% endif %}
+
+</div>
+
+
+
+<!-- FOOTER -->
+
+<footer class="bg-light mt-3">
+
+<div class="container py-4">
+
+<div class="row">
+
+<div class="col-sm-4">
+
+<h5>
+
+NewsDotCom
+
+</h5>
+
+<p class="text-muted">
+
+A digital publishing platform built for modern journalism.
+
+</p>
+
+</div>
+
+
+<div class="col-md-2 text-sm-end">
+
+<p class="text-muted">
+
+© {% now "Y" %} NewsDotCom
+
+</p>
+
+<p class="text-muted">
+
+Founded 2026
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</footer>
+
+{% endblock %}

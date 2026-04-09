@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2>Welcome {{ user.username }}</h2>
+
+<div class="card mt-3">
+
+<div class="card-body">
+
+<h5>Your Publisher Subscriptions</h5>
+
+{% for publisher in publishers %}
+
+<p>
+
+<a href="{% url 'publisher_detail' publisher.pk %}">
+
+{{ publisher.name }}
+
+</a>
+
+</p>
+
+{% empty %}
+
+<p class="text-muted">
+
+No publisher subscriptions yet.
+
+</p>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+
+<div class="card mt-3">
+
+<div class="card-body">
+
+<h5>Journalists you follow</h5>
+
+{% for journalist in journalists %}
+
+<p>
+
+<a href="{% url 'subscribe_journalist' journalist.pk %}"
+class="text-decoration-none">
+
+{{ journalist.username|default:"Unknown" }}
+
+</a>
+
+</p>
+
+{% empty %}
+
+<p class="text-muted">
+
+Not following any journalists yet.
+
+</p>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+<a href="{% url 'publication_list' %}"
+
+class="btn btn-primary mt-3">
+
+Browse Publications
+
+</a>
+
+</div>
+
+{% endblock %}

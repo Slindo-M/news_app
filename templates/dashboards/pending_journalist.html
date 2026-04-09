@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2>
+
+Pending Journalist Requests
+
+</h2>
+
+
+{% for publication in publications %}
+
+<div class="card mt-3">
+
+<div class="card-body">
+
+<h4>
+
+{{ publication.name }}
+
+</h4>
+
+<p class="text-muted small">
+Publisher: {{ publication.publisher.name }}
+</p>
+
+
+{% for journalist in publication.pending_journalists.all %}
+
+<div class="border rounded p-2 mb-2">
+
+<strong>
+
+{{ journalist.username }}
+
+</strong>
+
+<p class="text-muted mb-2">
+
+{{ journalist.email }}
+
+</p>
+
+<a href="{% url 'approve_journalist' publication.id journalist.id %}"
+class="btn btn-success btn-sm">
+
+Approve
+
+</a>
+
+<a href="{% url 'reject_journalist' publication.id journalist.id %}"
+class="btn btn-danger btn-sm">
+
+Reject
+
+</a>
+
+</div>
+
+{% empty %}
+
+<p class="text-muted">
+
+No pending journalists.
+
+</p>
+
+{% endfor %}
+
+
+<!-- CURRENT JOURNALISTS -->
+
+<h5 class="mt-4">Current Journalists</h5>
+
+{% for journalist in publication.approved_journalists.all %}
+
+<div class="border rounded p-2 mb-2 bg-light">
+
+<strong>{{ journalist.username }}</strong>
+
+<p class="text-muted mb-0">
+{{ journalist.email }}
+</p>
+
+</div>
+
+{% empty %}
+
+<p class="text-muted">
+No approved journalists.
+</p>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-info">
+
+No publications assigned to you.
+
+</div>
+
+{% endfor %}
+
+<a href="{% url 'editor_dashboard' %}"
+class="btn btn-secondary mt-3">
+
+Back
+
+</a>
+
+
+</div>
+
+{% endblock %}

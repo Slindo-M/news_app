@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2>My Subscriptions</h2>
+
+<h4 class="mt-4">Publications</h4>
+
+<ul class="list-group mb-4">
+
+{% for publication in publications %}
+
+<li class="list-group-item">
+
+<a href="{% url 'publication_detail' publication.pk %}">
+
+{{ publication.name }}
+
+</a>
+
+</li>
+
+{% empty %}
+
+<li class="list-group-item text-muted">
+
+No subscriptions yet.
+
+</li>
+
+{% endfor %}
+
+</ul>
+
+<h4>Journalists</h4>
+
+<ul class="list-group">
+
+{% for journalist in journalists %}
+
+<li class="list-group-item">
+
+{{ journalist.username }}
+
+</li>
+
+{% empty %}
+
+<li class="list-group-item text-muted">
+
+No subscriptions yet.
+
+</li>
+
+{% endfor %}
+
+</ul>
+
+
+<div class="mt-4">
+
+<a href="{% url 'reader_dashboard' %}"
+class="btn btn-secondary">
+
+Back
+
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}

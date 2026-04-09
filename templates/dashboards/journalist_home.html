@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2 class="fw-bold">
+
+Welcome {{ user.username }}
+
+</h2>
+
+<p class="text-muted">
+
+Manage your articles and newsletters
+
+</p>
+
+
+<div class="row mt-4">
+
+<!-- Create article -->
+
+<div class="col-md-6">
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<h5>Create Article</h5>
+
+<p class="text-muted">
+
+Write a new article
+
+</p>
+
+<a href="{% url 'create_article' %}"
+class="btn btn-primary">
+
+Create Article
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Create newsletter -->
+
+<div class="col-md-6">
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<h5>Create Newsletter</h5>
+
+<p class="text-muted">
+
+Write a new newsletter
+
+</p>
+
+<a href="{% url 'create_newsletter' %}"
+class="btn btn-success">
+
+Create Newsletter
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Articles -->
+
+<div class="mt-5">
+
+<h4>Your Articles</h4>
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+{% for article in articles %}
+
+<div class="border-bottom pb-2 mb-2">
+
+<strong>
+
+{{ article.title }}
+
+</strong>
+
+<div class="text-muted small">
+
+{{ article.publication_date|date:"M d Y" }}
+
+|
+
+{{ article.get_approval_status_display }}
+
+</div>
+
+<a href="{% url 'article_detail' article.id %}"
+class="btn btn-sm btn-outline-primary mt-1">
+
+View
+
+</a>
+
+</div>
+
+{% empty %}
+
+<p class="text-muted">
+
+No articles created yet
+
+</p>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Newsletters -->
+
+<div class="mt-4">
+
+<h4>Your Newsletters</h4>
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+{% for newsletter in newsletters %}
+
+<div class="border-bottom pb-2 mb-2">
+
+<strong>
+
+{{ newsletter.title }}
+
+</strong>
+
+<div class="text-muted small">
+
+{{ newsletter.publication_date|date:"M d Y" }}
+
+|
+
+{{ newsletter.get_approval_status_display }}
+
+</div>
+
+<a href="{% url 'newsletter_detail' newsletter.id %}"
+class="btn btn-sm btn-outline-primary mt-1">
+
+View
+
+</a>
+
+</div>
+
+{% empty %}
+
+<p class="text-muted">
+
+No newsletters created yet
+
+</p>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Browse publications -->
+
+<div class="mt-4">
+
+<a href="{% url 'publication_list' %}"
+class="btn btn-outline-dark">
+
+Browse Publications
+
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}

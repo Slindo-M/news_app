@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h2>{{ newsletter.title }}</h2>
+
+<hr>
+
+<!-- ===================== -->
+<!-- EDITOR VIEW -->
+<!-- ===================== -->
+
+{% if user.role == "editor" %}
+
+<p class="text-muted">
+
+Journalist: {{ newsletter.journalist.username }} <br>
+
+Publication: {{ newsletter.publication.name|default:"Independent" }} <br>
+
+{{ newsletter.publication_date|date:"F d, Y" }} |
+{{ newsletter.content|wordcount }} words
+
+</p>
+
+<hr>
+
+<p>
+{{ newsletter.content }}
+</p>
+
+<hr>
+
+<p>
+<strong>Status:</strong> {{ newsletter.approval_status }}
+</p>
+
+<div class="mt-3">
+
+{% if newsletter.approval_status == "pending" %}
+
+<a href="{% url 'approve_newsletter' newsletter.id %}"
+class="btn btn-success">
+Approve
+</a>
+
+<a href="{% url 'reject_newsletter' newsletter.id %}"
+class="btn btn-danger">
+Reject
+</a>
+
+{% endif %}
+
+
+{% if newsletter.approval_status == "approved" %}
+
+<a href="{% url 'edit_newsletter' newsletter.id %}"
+class="btn btn-primary">
+Edit
+</a>
+
+<a href="{% url 'delete_newsletter' newsletter.id %}"
+class="btn btn-danger">
+Delete
+</a>
+
+{% endif %}
+
+<a href="{% url 'newsletter_list' %}"
+class="btn btn-secondary">
+Back
+</a>
+
+</div>
+
+{% endif %}
+
+
+
+<!-- ===================== -->
+<!-- JOURNALIST VIEW -->
+<!-- ===================== -->
+
+{% if user.role == "journalist" %}
+
+<p class="text-muted">
+
+Publication: {{ newsletter.publication.name|default:"Independent" }} <br>
+
+Editors:
+
+{% if newsletter.publication %}
+    {% for editor in newsletter.publication.editors.all %}
+        {{ editor.username }}
+    {% empty %}
+        None
+    {% endfor %}
+{% else %}
+None
+{% endif %}
+
+<br>
+
+{{ newsletter.publication_date|date:"F d, Y" }} |
+{{ newsletter.content|wordcount }} words
+
+</p>
+
+<hr>
+
+<p>
+{{ newsletter.content }}
+</p>
+
+<hr>
+
+<p>
+<strong>Status:</strong> {{ newsletter.approval_status }}
+</p>
+
+<div class="mt-3">
+
+{% if newsletter.journalist == user %}
+
+<a href="{% url 'edit_newsletter' newsletter.id %}"
+class="btn btn-primary">
+Edit
+</a>
+
+<a href="{% url 'delete_newsletter' newsletter.id %}"
+class="btn btn-danger">
+Delete
+</a>
+
+{% endif %}
+
+<a href="{% url 'journalist_dashboard' %}"
+class="btn btn-secondary">
+Back
+</a>
+
+</div>
+
+{% endif %}
+
+
+
+<!-- ===================== -->
+<!-- READER VIEW -->
+<!-- ===================== -->
+
+{% if user.role == "reader" %}
+
+<p class="text-muted">
+
+Journalist: {{ newsletter.journalist.username }} <br>
+
+Editors:
+
+{% if newsletter.publication %}
+    {% for editor in newsletter.publication.editors.all %}
+        {{ editor.username }}
+    {% empty %}
+        None
+    {% endfor %}
+{% else %}
+None
+{% endif %}
+
+<br>
+
+Publication:
+{{ newsletter.publication.name|default:"Independent" }}
+
+<br>
+
+Approx read time:
+{{ newsletter.content|wordcount }} words (~{{ newsletter.content|wordcount|divisibleby:200|yesno:"1,2" }} min)
+
+<br>
+
+Publication date:
+{{ newsletter.publication_date|date:"M d Y" }}
+
+</p>
+
+<hr>
+
+<p>
+{{ newsletter.content }}
+</p>
+
+<hr>
+
+
+<!-- FOLLOW BUTTONS -->
+
+<div class="mb-3">
+
+{% if newsletter.journalist in user.subscribed_journalists.all %}
+
+<a href="{% url 'unsubscribe_journalist' newsletter.journalist.id %}"
+class="btn btn-danger btn-sm">
+
+Unfollow Journalist
+
+</a>
+
+{% else %}
+
+<a href="{% url 'subscribe_journalist' newsletter.journalist.id %}"
+class="btn btn-outline-primary btn-sm">
+
+Follow Journalist
+
+</a>
+
+{% endif %}
+
+
+
+{% if newsletter.publication %}
+
+{% if newsletter.publication.publisher in user.subscribed_publishers.all %}
+
+<a href="{% url 'unsubscribe_publication' newsletter.publication.publisher.id %}"
+class="btn btn-danger btn-sm">
+
+Unfollow Publication
+
+</a>
+
+{% else %}
+
+<a href="{% url 'subscribe_publication' newsletter.publication.publisher.id %}"
+class="btn btn-outline-primary btn-sm">
+
+Follow Publication
+
+</a>
+
+{% endif %}
+
+{% endif %}
+
+</div>
+
+
+<a href="{% url 'all_newsletters' %}"
+class="btn btn-secondary">
+Back
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

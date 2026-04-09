@@ -1,0 +1,120 @@
+{{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2 class="fw-bold">
+
+Welcome {{ user.username }}
+
+</h2>
+
+<p class="text-muted">
+
+Manage publications and review content
+
+</p>
+
+
+<div class="row mt-4">
+
+<div class="col-md-4">
+
+<div class="card shadow-sm">
+
+<div class="card-body text-center">
+
+<h3>
+
+{{ pending_articles_count|default:0 }}
+
+</h3>
+
+<p>Pending Articles</p>
+
+<a href="{% url 'pending_articles' %}"
+class="btn btn-warning">
+
+Review
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="card shadow-sm">
+
+<div class="card-body text-center">
+
+<h3>
+
+{{ pending_journalists_count|default:0 }}
+
+</h3>
+
+<p>Journalist Requests</p>
+
+<a href="{% url 'pending_journalists' %}"
+class="btn btn-dark">
+
+Review
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="card shadow-sm">
+
+<div class="card-body text-center">
+
+<h3>
+
+{{ pending_newsletters_count|default:0 }}
+
+</h3>
+
+<p>Pending Newsletters</p>
+
+<a href="{% url 'pending_newsletters' %}"
+class="btn btn-primary">
+
+Review
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="mt-4">
+
+<a href="{% url 'publication_list' %}"
+class="btn btn-outline-dark">
+
+Browse Publications
+
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}

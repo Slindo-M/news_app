@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<div class="alert alert-warning">
+
+<h4>Application Pending</h4>
+
+<p>
+
+Your editor application is under review.
+
+</p>
+
+</div>
+
+<a href="{% url 'home' %}"
+class="btn btn-secondary">
+
+Back to Home
+
+</a>
+
+</div>
+
+{% endblock %}

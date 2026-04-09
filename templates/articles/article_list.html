@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+{% if user.role == "journalist" %}
+
+<h2 class="fw-bold">
+Your Articles
+</h2>
+
+<p class="text-muted">
+Grouped by publication
+</p>
+
+{% for publication, articles in grouped_articles.items %}
+
+<div class="card shadow-sm mb-4">
+
+<div class="card-body">
+
+{% if publication != "Independent" %}
+
+<h4 class="fw-bold text-primary">
+{{ publication.name }}
+</h4>
+
+<div class="text-muted small mb-2">
+Publisher: {{ publication.publisher.name }}
+</div>
+
+<div class="text-muted small mb-3">
+Editors:
+
+{% for editor in publication.editors.all %}
+{{ editor.username }}
+{% empty %}
+None
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<h4 class="fw-bold">
+Independent Articles
+</h4>
+
+<div class="text-muted small mb-2">
+Publisher: Self-published
+</div>
+
+<div class="text-muted small mb-3">
+Editors: None
+</div>
+
+{% endif %}
+
+<div class="row">
+
+{% for article in articles %}
+
+<div class="col-md-6 col-lg-4">
+
+<div class="card border-0 shadow-sm mb-3 h-100">
+
+<div class="card-body d-flex flex-column">
+
+<div class="mb-2">
+
+{% if article.approval_status == "pending" %}
+<span class="badge bg-warning">
+Awaiting Approval
+</span>
+
+{% elif article.approval_status == "approved" %}
+<span class="badge bg-success">
+Published
+</span>
+
+{% elif article.approval_status == "rejected" %}
+<span class="badge bg-danger">
+Rejected - Edit & Resubmit
+</span>
+
+{% endif %}
+
+</div>
+
+<h5 class="fw-bold">
+{{ article.title }}
+</h5>
+
+<div class="text-muted small mb-2">
+{{ article.publication_date|date:"M d Y" }} |
+{{ article.content|wordcount }} words
+</div>
+
+<p class="text-muted">
+{{ article.content|truncatewords:20 }}
+</p>
+
+<div class="mt-auto">
+
+<a href="{% url 'article_detail' article.pk %}"
+class="btn btn-primary btn-sm">
+View
+</a>
+
+<a href="{% url 'edit_article' article.pk %}"
+class="btn btn-outline-secondary btn-sm">
+Edit
+</a>
+
+<a href="{% url 'delete_article' article.pk %}"
+class="btn btn-outline-danger btn-sm">
+Delete
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-light">
+No articles created yet.
+</div>
+
+{% endfor %}
+
+<a href="{% url 'create_article' %}"
+class="btn btn-success">
+Write Article
+</a>
+
+<a href="{% url 'journalist_dashboard' %}"
+class="btn btn-secondary mt-3">
+Back
+</a>
+
+{% endif %}
+
+
+
+<!-- EDITOR VIEW -->
+
+{% if user.role == "editor" %}
+
+<h2>
+Publication Articles
+</h2>
+
+<h4 class="mt-4">
+Pending Articles ({{ pending_articles.count }})
+</h4>
+
+<div class="row">
+
+{% for article in pending_articles %}
+
+<div class="col-md-6 col-lg-4">
+
+<div class="card border-warning mb-3">
+
+<div class="card-body">
+
+<span class="badge bg-warning">
+Pending
+</span>
+
+<h5 class="mt-2">
+{{ article.title }}
+</h5>
+
+<div class="text-muted small mb-2">
+
+{{ article.publication.name|default:"Independent" }} |
+{{ article.publication_date|date:"M d Y" }} |
+{{ article.content|wordcount }} words
+
+</div>
+
+<div class="text-muted small mb-2">
+Journalist: {{ article.journalist.username }}
+</div>
+
+<p class="text-muted">
+{{ article.content|truncatewords:20 }}
+</p>
+
+<a href="{% url 'approve_article' article.pk %}"
+class="btn btn-success btn-sm">
+Approve
+</a>
+
+<a href="{% url 'reject_article' article.pk %}"
+class="btn btn-danger btn-sm">
+Reject
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="col-12">
+
+<div class="alert alert-light">
+There are no articles to approve.
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+
+<h4 class="mt-5">
+Published Articles ({{ approved_articles.count }})
+</h4>
+
+<div class="row">
+
+{% for article in approved_articles %}
+
+<div class="col-md-6 col-lg-4">
+
+<div class="card mb-3">
+
+<div class="card-body">
+
+<span class="badge bg-success">
+Published
+</span>
+
+<h5 class="mt-2">
+{{ article.title }}
+</h5>
+
+<div class="text-muted small mb-2">
+
+{{ article.publication.name|default:"Independent" }} |
+{{ article.publication_date|date:"M d Y" }} |
+{{ article.content|wordcount }} words
+
+</div>
+
+<div class="text-muted small">
+Journalist: {{ article.journalist.username }}
+</div>
+
+<p class="text-muted">
+{{ article.content|truncatewords:20 }}
+</p>
+
+<a href="{% url 'article_detail' article.pk %}"
+class="btn btn-primary btn-sm">
+View
+</a>
+
+<a href="{% url 'edit_article' article.pk %}"
+class="btn btn-outline-secondary btn-sm">
+Edit
+</a>
+
+<a href="{% url 'delete_article' article.pk %}"
+class="btn btn-outline-danger btn-sm">
+Delete
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="col-12">
+
+<div class="alert alert-light">
+No published articles yet.
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<a href="{% url 'editor_dashboard' %}"
+class="btn btn-secondary mt-3">
+Back
+</a>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

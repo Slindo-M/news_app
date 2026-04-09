@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Create Article</h2>
+
+<form method="post" class="card p-4 shadow">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<button type="submit" class="btn btn-success">
+Publish Article
+</button>
+
+</form>
+
+<a href="{% url 'article_list' %}"
+class="btn btn-secondary mt-3">
+
+Back to Articles
+
+</a>
+
+{% endblock %}

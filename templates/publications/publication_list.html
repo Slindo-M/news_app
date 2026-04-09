@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h2 class="mb-4">Publications</h2>
+
+<div class="row">
+
+{% for publication in publications %}
+
+<div class="col-md-4 mb-4">
+
+<div class="card shadow-sm h-100">
+
+<div class="card-body">
+
+<h4 class="card-title">
+{{ publication.name }}
+</h4>
+
+<p class="text-muted">
+Publisher:
+
+<a href="{% url 'publisher_detail' publication.publisher.pk %}">
+{{ publication.publisher.name }}
+</a>
+
+</p>
+
+<p>
+{{ publication.description|truncatewords:15 }}
+</p>
+
+
+<p class="text-muted">
+
+Editors:
+
+{% for editor in publication.editors.all %}
+{{ editor.username }}
+{% empty %}
+None assigned
+{% endfor %}
+
+</p>
+
+
+<p class="text-muted">
+Journalists:
+{{ publication.approved_journalists.count }}
+</p>
+
+
+<div class="mt-3">
+
+<a href="{% url 'publication_detail' publication.pk %}"
+class="btn btn-primary btn-sm">
+
+View Publication
+
+</a>
+
+</div>
+
+
+{% if user.is_authenticated %}
+
+<div class="mt-2">
+
+{% if user.role == "journalist" %}
+
+{% if user in publication.approved_journalists.all %}
+
+<button class="btn btn-primary btn-sm" disabled>
+Joined
+</button>
+
+{% elif user in publication.pending_journalists.all %}
+
+<button class="btn btn-warning btn-sm" disabled>
+Application Pending
+</button>
+
+{% else %}
+
+<a href="{% url 'journalist_join' publication.pk %}"
+class="btn btn-outline-success btn-sm">
+
+Join
+
+</a>
+
+{% endif %}
+
+{% endif %}
+
+
+
+{% if user.role == "editor" %}
+
+{% if user in publication.editors.all %}
+
+<button class="btn btn-primary btn-sm" disabled>
+Editor
+</button>
+
+{% elif user in publication.pending_editors.all %}
+
+<button class="btn btn-warning btn-sm" disabled>
+Application Pending
+</button>
+
+{% else %}
+
+<a href="{% url 'editor_signup' publication.pk %}"
+class="btn btn-outline-dark btn-sm">
+
+Apply as Editor
+
+</a>
+
+{% endif %}
+
+{% endif %}
+
+
+
+{% if user.role == "reader" %}
+
+{% if user in publication.publisher.subscribers.all %}
+
+<a href="{% url 'unsubscribe_publication' publication.publisher.pk %}"
+class="btn btn-outline-danger btn-sm">
+
+Unsubscribe
+
+</a>
+
+{% else %}
+
+<a href="{% url 'subscribe_publication' publication.publisher.pk %}"
+class="btn btn-outline-success btn-sm">
+
+Subscribe
+
+</a>
+
+{% endif %}
+
+{% endif %}
+
+</div>
+
+{% endif %}
+
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="col-12">
+
+<div class="alert alert-info">
+No publications available.
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<div class="mt-4">
+
+{% if user.is_authenticated and user.role == "journalist" %}
+
+<a href="{% url 'journalist_dashboard' %}"
+class="btn btn-secondary">
+
+Back
+
+</a>
+
+{% endif %}
+
+
+{% if user.is_authenticated and user.role == "reader" %}
+
+<a href="{% url 'reader_dashboard' %}"
+class="btn btn-secondary">
+
+Back
+
+</a>
+
+{% endif %}
+
+
+{% if user.is_authenticated and user.role == "editor" %}
+
+<a href="{% url 'editor_dashboard' %}"
+class="btn btn-secondary">
+
+Back
+
+</a>
+
+{% endif %}
+
+
+{% if not user.is_authenticated %}
+
+<a href="{% url 'home' %}"
+class="btn btn-secondary">
+
+Back
+
+</a>
+
+{% endif %}
+
+</div>
+
+
+</div>
+
+{% endblock %}
