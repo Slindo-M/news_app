@@ -1,3 +1,6 @@
+'''
+Test cases for the content app in the news application.
+'''
 from django.test import TestCase
 from django.urls import reverse
 from users.models import CustomUser
